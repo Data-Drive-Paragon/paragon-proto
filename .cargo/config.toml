@@ -1,0 +1,8 @@
+# Линкеры для кросс-сборки с linux/amd64 хоста.
+# Если собираешь через `cross` — этот файл не нужен, у cross свои образы.
+
+[target.aarch64-unknown-linux-gnu]
+linker = "aarch64-linux-gnu-gcc"
+
+[target.x86_64-pc-windows-gnu]
+linker = "x86_64-w64-mingw32-gcc"
