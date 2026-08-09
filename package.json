@@ -1,6 +1,6 @@
 {
   "name": "@masloff/paragonproto",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Binary protocol for structured data with encryption support for every Paragon products",
   "module": "src/bun/index.ts",
   "type": "module",
