@@ -60,8 +60,13 @@ jobs:
         with:
           path: src/bun/native
 
-      - name: Setup npm
-        run: bun pm npm
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Publish to npm
-        run: bun publish --access public --token ${{ secrets.NPM_TOKEN }}
+        run: bun publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
