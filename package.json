@@ -16,6 +16,8 @@
   },
   "scripts": {
     "build:native": "bun scripts/build-native.ts",
-    "build": "bun run build:native"
+    "build": "bun run build:native",
+    "test:bun": "bun run src/bun/example.ts",
+    "test": "cargo test --features std && bun run build:native && bun run src/bun/example.ts"
   }
 }

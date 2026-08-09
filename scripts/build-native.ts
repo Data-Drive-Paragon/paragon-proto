@@ -9,31 +9,45 @@ console.log(`Building native library for ${platform}-${arch}...`);
 // Build Rust library with std feature
 await $`cargo build --release --features std`;
 
-// Determine library name and extension
-const libName = "libparagon_proto";
+// Determine library extension and possible names
 let libExt: string;
-let targetDir: string;
+const targetDir = "target/release";
 
 switch (platform) {
   case "linux":
     libExt = "so";
-    targetDir = "target/release";
     break;
   case "darwin":
     libExt = "dylib";
-    targetDir = "target/release";
     break;
   case "win32":
     libExt = "dll";
-    targetDir = "target/release";
     break;
   default:
     throw new Error(`Unsupported platform: ${platform}`);
 }
 
-const sourceLib = `${targetDir}/${libName}.${libExt}`;
+const possibleNames = platform === "win32" ? ["paragon_proto", "libparagon_proto"] : ["libparagon_proto"];
+let sourceLib = "";
+let foundName = "";
+
+for (const name of possibleNames) {
+  const candidate = `${targetDir}/${name}.${libExt}`;
+  if (await Bun.file(candidate).exists()) {
+    sourceLib = candidate;
+    foundName = name;
+    break;
+  }
+}
+
+if (!sourceLib) {
+  foundName = possibleNames[0];
+  sourceLib = `${targetDir}/${foundName}.${libExt}`;
+}
+
 const destDir = "src/bun/native";
-const destLib = `${destDir}/${libName}.${libExt}`;
+// Always copy to libparagon_proto.<ext> to match FFI expectation
+const destLib = `${destDir}/libparagon_proto.${libExt}`;
 
 // Create destination directory
 await $`mkdir -p ${destDir}`;
