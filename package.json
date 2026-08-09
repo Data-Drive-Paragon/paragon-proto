@@ -1,0 +1,21 @@
+{
+  "name": "paragonproto",
+  "version": "0.1.0",
+  "description": "Binary protocol for structured data with encryption support for every Paragon products",
+  "module": "src/bun/index.ts",
+  "type": "module",
+  "files": [
+    "src/bun/**/*",
+    "src/bun/native/**/*"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "scripts": {
+    "build:native": "bun scripts/build-native.ts",
+    "build": "bun run build:native"
+  }
+}
